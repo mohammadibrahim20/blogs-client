@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { WithContext as ReactTags } from "react-tag-input";
 import "./AddBlog.css";
@@ -12,6 +13,7 @@ const AddBlog = () => {
   const [tags, setTags] = useState([]);
   const [photos, setPhotos] = useState([]);
   const [category, setCategory] = useState("");
+
   const handleFileChange = (event) => {
     const selectedFiles = event.target.files;
     setPhotos([...photos, ...selectedFiles]);
@@ -43,7 +45,20 @@ const AddBlog = () => {
     const title = form.title.value;
     const description = form.description.value;
     const url = form.url.value;
-    console.log(title, description, url, category);
+    // console.log(title, description, url, category);
+    const formData = new FormData();
+    photos.forEach((file) => {
+      formData.append("photos", file);
+    });
+
+    axios
+      .post("http://localhost:5000/upload", formData)
+      .then((response) => {
+        console.log("Photos uploaded successfully:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error uploading photos:", error);
+      });
   };
   return (
     <div className="max-w-7xl mx-auto w-full mt-10 px-5">
@@ -83,6 +98,7 @@ const AddBlog = () => {
             type="file"
             className="file-input file-input-bordered w-full "
             multiple
+            name="photos"
             onChange={handleFileChange}
           />
         </div>
