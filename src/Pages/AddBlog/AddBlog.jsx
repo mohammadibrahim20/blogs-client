@@ -45,7 +45,6 @@ const AddBlog = () => {
     const url = form.url.value;
     console.log(title, description, url, category);
   };
-  console.log(category);
   return (
     <div className="max-w-7xl mx-auto w-full mt-10 px-5">
       <h2 className="text-4xl font-bold text-blue-600">Add Portfolio</h2>
